@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Inception of Russia’s LNG Ghost Fleet</title>
+    <link rel="icon" type="image/x-icon" href="LOGO-synmax.png">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gruppo&family=Noto+Sans+Mono:wght@100..900&family=Orbitron:wght@400..900&family=Space+Mono:ital,wght@0,400;0,700&display=swap" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js"></script>
+    <script src="https://unpkg.com/intersection-observer@0.12.0/intersection-observer.js"></script>
+    <script src="https://unpkg.com/scrollama"></script>
+    <style>
+        /* General Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto Condensed', sans-serif;
+    background-color: #000;
+}
+
+/* Anchor Tags */
+a, a:hover, a:visited {
+    color: #0071bc;
+}
+
+/* Map Container */
+#map {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Story Container */
+#story {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    overflow-y: scroll;
+    width: 100%;
+    z-index: 10;
+    background: transparent;
+    color: white;
+}
+
+/* Steps */
+.step {
+    margin: 0 auto 50vh auto;
+    padding: 200px 0;
+    border: none;
+    transition: opacity 0.5s;
+}
+
+.step.active {
+    opacity: 1;
+}
+
+.step div {
+    padding: 25px 50px;
+    line-height: 25px;
+    font-size: 15px;
+}
+
+/* Headline Container */
+.headline-container {
+    padding: 50px;
+    background: rgba(211, 211, 211, 0.9);
+    border-radius: 10px;
+    margin: 40px auto 30px auto;
+    color: black;
+    max-width: 1000px;
+}
+
+.headline-container h1 {
+    margin-bottom: 20px;
+    font-size: 35px;
+}
+
+.headline-container h2 {
+    margin-bottom: 15px;
+    font-size: 22px;
+}
+
+.headline-container p {
+    margin-bottom: 15px;
+}
+
+.article-date {
+    color: #030303;
+    font-size: 18px;
+}
+
+/* Chapter Container */
+.chapter-container {
+    padding: 30px;
+    background: rgba(211, 211, 211, 0.9);
+    border-radius: 10px;
+    margin: 15px auto;
+    color: black;
+    max-width: 800px;
+}
+
+.chapter-container h3 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.chapter-container img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.chapter-container p {
+    font-size: 17px;
+    line-height: 1.4;
+}
+
+/* Text Alignment Containers */
+.centered {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.lefty {
+    text-align: left;
+    max-width: 600px;
+    margin-left: 0;
+}
+
+.righty {
+    text-align: right;
+    max-width: 600px;
+    margin-right: 0;
+}
+
+/* Clock */
+#clock {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px;
+    background-color: rgba(95, 95, 95, 0.7);
+    color: white;
+    font-size: 20px;
+    border-radius: 5px;
+    z-index: 30;
+    font-family: 'Noto Sans Mono', monospace;
+    font-weight: 400;
+}
+
+/* Legend */
+#legend {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
+    font-size: 14px;
+    border-radius: 5px;
+    z-index: 30;
+    font-family: 'Roboto Condensed', sans-serif;
+    display: none;
+}
+
+#legend ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#legend li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+#legend .legend-color-box {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+/* Media Queries for Mobile Devices */
+@media (max-width: 768px) {
+    .step {
+        padding: 100px 0;
+        margin: 0 auto 25vh auto;
+    }
+
+    .headline-container h1 {
+        font-size: 24px;
+    }
+
+    .headline-container h2 {
+        font-size: 20px;
+    }
+
+    .headline-container p {
+        font-size: 16px;
+    }
+
+    #legend {
+        top: 10px;
+        left: 10px;
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    #clock {
+        top: 10px;
+        right: 10px;
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .chapter-container {
+        max-width: 90%;
+        padding: 10px;
+    }
+
+    .chapter-container p {
+        font-size: 16px;
+    }
+
+    .chapter-container h3 {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    #clock {
+        top: 5px;
+        right: 5px;
+        padding: 6px;
+        font-size: 12px;
+    }
+
+    #legend {
+        top: 5px;
+        left: 5px;
+        padding: 6px;
+        font-size: 10px;
+    }
+
+    .chapter-container {
+        max-width: 90%;
+        padding: 10px;
+    }
+
+    .step {
+        padding: 80px 0;
+    }
+
+    .headline-container h1 {
+        font-size: 20px;
+    }
+
+    .headline-container h2 {
+        font-size: 18px;
+    }
+
+    .headline-container p {
+        font-size: 14px;
+    }
+
+    .chapter-container p {
+        font-size: 14px;
+    }
+
+    .chapter-container h3 {
+        font-size: 18px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="clock">September 5 2024, 6:00 PM</div>
+    <div id="legend">
+        <ul id="legend-list">
+            <li><div class="legend-color-box" style="background-color: #00cc11;"></div>Asya Energy Path</li>
+            <li><div class="legend-color-box" style="background-color: #75baff;"></div>Pioneer Path</li>
+            <li><div class="legend-color-box" style="background-color: #d1b200;"></div>Everest Energy Path</li>
+        </ul>
+    </div>
+    <div id="story">
+        <div class="headline-container centered">
+            <h1>The Inception of Russia’s LNG Ghost Fleet</h1>
+            <h2>A SynMax Visual Deep Dive: How Russia-Affiliated LNG Vessels Spoofed and Loaded At the Sanctioned Arctic-2 LNG Export Plant</h2>
+            <p style="font-size: 20px;" ><i>By Leslie Palti-Guzman & Vivek Patil</i></p>
+            <p class="article-date">September 5, 2024</p> <!-- Add this line -->
+        </div>
+        <div class="step" id="chapter-1">
+            <div class="chapter-container centered">
+                <h3>Russia Is Using Its Dark Oil ‘Expertise’ For Dark LNG</h3>
+                <p>
+                    For years, the world has closely monitored Russia's <a href="https://windward.ai/knowledge-base/illuminating-russias-shadow-fleet/" style="color: #0b0c0c;">shadow fleet of 600 oil tankers</a>, that have skillfully evaded Western sanctions and continued delivering crude to willing buyers in defiance of international regulations. Now, a new phenomenon is emerging in the global maritime waters: the assembling of a Russia-affiliated “dark LNG” fleet. Much like the shadow fleet that reshaped the oil industry in recent years, this covert network could disrupt the liquefied natural gas (LNG) market with untraceable tonnes and illegal transactions.
+                </p>                
+                
+                <p>
+                    <a href="https://leviaton.com/login/?next=/" style="color: #17b7b7; font-size: 1.1em; font-weight: bold;">SynMax Leviaton</a> has tracked five conventional tankers <em>Pioneer</em> (IMO 9256602), <em>Asya Energy</em> (IMO 9216298), <em>Everest Energy</em> (IMO 9243148), <em>New Energy</em> (IMO 9324277), and <em>Mulan</em> (IMO 9864837) that may have joined Novatek’s “dark LNG fleet” based on suspicious AIS patterns, recent ownership changes, flag-hopping, and a calculated use of the Red Sea route. These vessels are suspected to be part of a coordinated effort to transport US sanctioned LNG from Russia’s Arctic-LNG 2 plant (ALNG2). As of August 23, 2024, the US Department of Treasury has also identified the first three tankers noted above (among others) as <a href="https://www.state.gov/new-measures-to-degrade-russias-wartime-economy/#:~:text=In%20an%20attempt%20to%20circumvent,for%20the%20Arctic%20LNG%202" style="color: #0a0a0a;">"secondhand LNG tankers"</a> engaged in a number of deceptive shipping practices and as a result imposed sanctions against them.
+                </p>              
+                
+                <!-- <img src="path_to_image1.jpg" alt="Image for Chapter 1"> -->
+            </div>
+        </div>
+        <div class="step" id="chapter-2">
+            <div class="chapter-container righty">
+                <h3 style="font-size: 18px;" >Conventional LNG Tankers, Such As Pioneer, Will Help Russia Circumvent Sanctions</h3>
+                <p style="text-align: left;">
+                    These are the Automatic Identification System (AIS) signals reported by 19-year-old <em>Pioneer</em>, a vessel built in 2005, with a capacity of 138,000 cubic meters of LNG, from 15th July to 6th August 2024. Formerly known as <em>Pioneer Spirit</em>, this tanker recently changed its flag from Singapore to Palau in April 2024. The journey of the <em>Pioneer</em> LNG tanker has become a focal point in the beginning of the dark LNG trade. SynMax Leviaton believes the vessel has been chartered by Russia’s private LNG producer, Novatek.
+                </p>
+                
+                <!-- <img src="path_to_image2.jpg" alt="Image for Chapter 2"> -->
+            </div>
+        </div>
+        <div class="step" id="chapter-3">
+            <div class="chapter-container lefty">
+                <h3><em>Pioneer </em>  Loads LNG From Arctic-LNG 2 With Covert Spoofing Tactics</h3>
+                <p style="text-align: left;">
+                    On August 1, 2024, while its AIS signals suggested otherwise, the <em>Pioneer</em> was spotted docked at the sanctioned ALNG2 plant, located 800 miles away from the signals it reported. The tanker had arrived at ALNG2 after what appeared to be a well-coordinated spoofing operation, as detected by <a href="https://www.synmax.com/theia" style="color: #0758ae; font-weight: bold;">SynMax Theia</a>.
+                </p>
+                
+                <p style="text-align: left;">
+                    Interestingly, <em>Pioneer</em> is a conventional tanker, not adapted for Arctic winter conditions. One of the largest hurdles facing Russia’s Novatek in exporting cargoes from the sanctioned ALNG2 project has been the shortage of ice-class shipping capabilities. The location of the export plant on the Gydan Peninsula requires Arc-7 vessels in winter to break through the ice and access the port. However, in summer, conventional tankers, like <em>Pioneer</em>, can offtake cargoes and sail west towards Asia via the Suez Canal or the Cape of Good Hope, bypassing the Northern Sea Route (NSR) which remains more accessible to ice class vessels, even in the warmer months.
+                </p>
+                
+                <img src="satellite-images/PIONEER1.gif" alt="Image for Chapter 3">
+            </div>
+        </div>
+        <div class="step" id="chapter-4">
+            <div class="chapter-container righty">
+                <h3 style="text-align: center;"><em>Asya Energy </em> Uses Similar Spoofing Methods</h3>
+                <p style="text-align: left;">Another vessel, the <em>Asya Energy </em>(IMO 9216298), tells a similar tale of shadow ownership and spoofing patterns. Formerly known as Trader IV, this LNG carrier, built in 2002 with a capacity of 137,231 cubic meters, also switched flags from Liberia to Palau in May 2024.</p>    
+                <!-- <img src="path_to_image4.jpg" alt="Image for Chapter 4"> -->
+            </div>
+        </div>
+        <div class="step" id="chapter-5">
+            <div class="chapter-container lefty">
+                <h3 style="text-align: center;"><em>Asya Energy </em>Carries ALNG2’s Second Loading </h3>
+                <p style="text-align: left;">On August 10, 2024, satellite imagery revealed the moss type spherical vessel <em>Asya Energy</em> quietly docked at the ALNG2 plant. However, according to its reported AIS data, the vessel was supposed to be over 700 nautical miles (800 miles) away. The vessel spoofed its location using false signals to mask its true whereabouts.</p>
+                <img src="satellite-images/ASYAENERGY-2.gif" alt="Image for Chapter 5">
+            </div>
+        </div>
+        <div class="step" id="chapter-6">
+            <div class="chapter-container lefty">
+                <h3 style="text-align: center;"><em>Everest Energy</em> Gets The Third LNG Load</h3>
+                <p style="text-align: left;">Along the same lines,  from August 20 to August 26, 2024, the <em>Everest Energy</em> tanker engaged in a deceptive AIS spoofing operation, mirroring the maneuvers employed by the <em>Asya Energy</em>. For five days, its signals falsely indicated the vessel’s location far from the ALNG2 terminal, in waters near where <em>Asya Energy</em> had previously obscured its true position. However, on August 25, at approximately 18:00 GMT, the <em>Everest Energy’s</em> AIS data abruptly shifted, revealing its actual location at the ALNG2 terminal. Unlike previous spoofing efforts, the tanker did not attempt to conceal its movements after departing the plant, suggesting a deliberate move to reveal its true position after loading a cargo of LNG.</p>
+                <div style="text-align: center;">
+                <img src="satellite-images/everestenergy-3.gif" alt="Image for Chapter 6">
+                </div>
+            </div>        
+        </div>
+        <div class="step" id="chapter-7">
+            <div class="chapter-container righty">
+                <h3 style="text-align: center;">Novatek Uses More Sophisticated Deceiving Practices</h3>
+                <p style="text-align: left;">
+                    The ‘art’ of spoofing consists of a vessel broadcasting a false location while conducting activities elsewhere, often tied to illegal or sanctioned operations. Russia’s spoofing tactics have quickly evolved, adapting to each operation. Unlike <em>Pioneer</em>, whose AIS signal patterns formed spherical or donut-like shapes that raised immediate red flags, <em>Asya Energy's</em> spoofed route seemed far more convincing, blending in more with legitimate marine traffic.
+                </p>
+                <p style="text-align: left;">
+                    This sophistication raises a critical question: What makes LNG vessels "dark"? It’s not merely their association with sanctioned projects, but the deliberate masking of their movements through hiding and spoofing, that casts them into the shadows.
+                </p>
+                
+                <!-- <img src="path_to_image7.jpg" alt="Image for Chapter 7"> -->
+            </div>
+        </div>
+        <div class="step" id="chapter-8">
+            <div class="chapter-container lefty">
+                <h3 style="font-size: 17px; font-weight: bold;">Arctic-LNG 2 Will Remain Under Chinese Life Support–Unless That Support Evaporates Too</h3>
+                <p style="text-align: left;">
+                    In response to the growing evidence of spoofing activities, the <a href="https://home.treasury.gov/" style="color: #000000;">US Department of the Treasury</a> sanctioned seven LNG tankers affiliated with Russia on August 23, 2024, including <em>Asya Energy</em>, <em>Pioneer</em>, and <em>Everest Energy</em>—all identified by SynMax Leviaton as part of the dark fleet assembled by Russia’s Novatek to transport cargoes from ALNG2. These ships, a mix of older conventional vessels and newer Arc-4 ships, shared suspicious AIS activity, recent changes in flags, and shifts in ownership, further complicating efforts to track their movements.
+                </p>
+                <p style="text-align: left;">
+                    Two Indian companies, Zara Holding and Ocean Star Speed Star Management, were also sanctioned due to their direct involvement with these vessels. Ocean Star Speed Star Management, a single-person operation registered 150 km from Mumbai in June 2024, has now emerged as a key player in this rapidly growing dark LNG trade network. Following the US sanctions, the Republic of Palau temporarily <a href="https://www.bloomberg.com/news/articles/2024-08-27/palau-suspends-registration-on-russia-linked-sanctioned-ships" style="color: #060606;">suspended</a> the registration of three LNG vessels linked to this network.
+                </p>
+                <p style="text-align: left;">
+                    Despite the US sanctions and scrutiny, the ALNG2 project has continued construction and operations, largely due to China’s involvement. The ALNG2 project, with a train 1 capacity of 6.6 million tonnes per annum (mtpa), was first sanctioned by the West following Russia’s invasion of Ukraine in February 2022. Chinese technology and financing have been pivotal in sustaining the project. China's ongoing delivery of prefabricated modules for Arctic-2 underscores its critical role. Additionally, China will probably be the main and sole destination for these cargoes, unless it is getting cold feet.
+                </p>
+                
+                <div style="text-align: center;">
+                <img src="satellite-images/ALNG 2 PLANT 2 (1).png" alt="Image for Chapter 8">
+                </div>
+            </div>
+        </div>
+        <div class="step" id="chapter-9">
+            <div class="chapter-container righty">
+                <h3 style="text-align: center;">Suspicious Changes of Vessel Names, Ownerships, and Trade Routes</h3>
+                <p style="text-align: left;">
+                    All the vessels in this fleet display a common pattern of frequent flag change and ownership transfers. For instance, <em>Asya Energy</em>, formerly known as <em>Trader IV</em>, has changed hands twice in recent years. The vessel was a familiar sight on LNG corridors between Nigeria, Spain, and France, reliably transporting cargoes from Nigeria LNG to Europe. In September 2023, Capital Gas purchased the carrier from Bonny Gas Transport for $35 million, renaming it <em>LNG Rivers</em>. However, just months later, in December 2023, the vessel was sold to UAE-based Nur Global Management.
+                </p>
+                <p style="text-align: left;">
+                    Following this sale, the vessel’s trade route shifted. It was deployed on short-term routes between the UAE and Oman, delivering a cargo to Dahej, India, in early January, before continuing to shuttle between the UAE and Oman. In mid-June 2024, <em>Asya Energy</em> received bunker fuel via a ship-to-ship transfer with the bunkering tanker <em>Margherita Cosulich</em> (IMO 982505), as detected by SynMax Theia satellite imagery.
+                </p>
+                
+                <!-- <img src="path_to_image9.jpg" alt="Image for Chapter 9"> -->
+            </div>
+        </div>
+        <div class="step" id="chapter-10">
+            <div class="chapter-container righty">
+                <h3 style="text-align: center;">Russian Fingerprints All Over the Red Sea Crossing</h3>
+                <p style="text-align: left;">
+                    The <em>Asya Energy</em> became the first LNG tanker in months to cross the perilous waters of the Red Sea, a region heavily disrupted by Yemen’s Houthi attacks on merchant vessels. On June 17, 2024, SynMax Leviaton detected the <em>Asya Energy</em> vessel heading towards the Bab-el-Mandeb Strait, one of the world’s most strategic—and now dangerous—shipping lanes. Recent drone attacks by the Houthis had heightened these risks, with one such strike having killed <a href="hhttps://www.nbcnews.com/news/world/houthis-sink-second-ship-rcna157881" style="color: #0a0a0a;">a crew member</a> aboard a bulk carrier just days earlier.
+                </p>
+                
+                <p style="text-align: left;">
+                    Navigating this treacherous route might have been a calculated risk, potentially testing the waters for future voyages. There is speculation that Russia may have negotiated a deal with Yemen’s Houthis back in March, potentially allowing for “safe passage” through the Bab el Mandeb Strait. This remains a risky journey given the explosive nature of LNG and the narrow passage, but it highlights the lengths to which the Kremlin is willing to go.
+                </p>
+                
+                <!-- <img src="path_to_image10.jpg" alt="Image for Chapter 10"> -->
+            </div>
+        </div>
+        <div class="step" id="chapter-11">
+            <div class="chapter-container lefty">
+                <h3>Refueling, Waiting for Orders and Complex Logistics for Sanctioned Ships</h3>
+                <p style="text-align: left;">
+                    The vessel continued its journey towards the Suez Canal, a critical juncture in global shipping. Just outside Port Said, <em>Asya Energy</em> engaged in another offshore bunkering operation, this time with the oil products tanker <em>Vemahope</em> (IMO 9477751).
+                </p>
+                
+                <p style="text-align: left;">
+                    From July 8 to 24, 2024, <em>Asya Energy</em> lingered in the waters near Tangier and Gibraltar—a familiar pattern observed among vessels linked to the same management company. These ships often bide their time in this location before proceeding to their ultimate destination: the ALNG2 plant.
+                </p>
+                
+                <!-- <img src="path_to_image11.jpg" alt="Image for Chapter 11"> -->
+            </div>
+        </div>
+        <div class="step" id="chapter-12">
+            <div class="chapter-container righty">
+                <h3 style="text-align: center;">Time Will Tell If The Expanding Shadow Fleet is a Dead Shell</h3>
+                <p style="text-align: left;">
+                    The journey of <em>Everest Energy</em> (IMO 9323456), formerly known as <em>Metagas Everest</em>, also warrants attention as it became the second ship to cross the Red Sea this year, following the path of <em>Asya Energy</em>. Built in 2003 and now sailing under the Liberian flag, <em>Everest Energy</em> was chartered in early 2024. After sailing in ballast, it was stationed near Port Said, before lingering in the waters near Gibraltar and proceeding towards the ALNG2 plant. Like <em>Asya Energy</em>, <em>Everest Energy</em> also demonstrated a growing pattern of suspicious navigation and route choices.
+                </p>
+                
+                <p style="text-align: left;">
+                    <em>Mulan</em>, formerly <em>Mulan Spirit</em>, affiliated with the same UAE-based Nur Global, is another deviant tanker, currently stationed in the Gibraltar area.
+                </p>
+                
+                <!-- <img src="" alt="Image for Chapter 12"> -->
+            </div>
+        </div>
+        <div class="step" id="chapter-13">
+            <div class="chapter-container righty" style="max-width: 500px; padding: 20px 20px;">
+                <h3 style="text-align: center;">The Dark Transfer of <em>Pioneer</em> and <em>New Energy</em></h3>
+                <p style="text-align: left;">
+                    After covertly transporting a cargo of LNG from ALNG2, the <em>Pioneer</em> (IMO 9256602) engaged in a dark ship-to-ship (STS) transfer with the <em>New Energy</em> (IMO 9324277) on August 25, 2024. The transfer took place 30 km northeast of Port Said, Egypt, with <em>Pioneer</em> spoofing its location 72 km northwest of the actual transfer site. Meanwhile, <em>New Energy</em> had gone dark on AIS since August 23, last appearing just 3 km away. This location, typically used for oil tanker transfers, presents a rare and risky setting for LNG operations, particularly in open waters without assistance. Any mishap could have fatal consequences for the crew.
+                </p>
+                
+                <p style="text-align: left;">
+                    Interestingly, prior to this encounter, <em>New Energy</em> may have conducted a practice STS with <em>Everest Energy</em> between August 6 and 7 in the same area north of Port Said. Given that LNG tankers typically require additional personnel and equipment for STS operations, it is possible that <em>New Energy</em> had been preparing for this significant transfer with <em>Pioneer</em>.
+                </p>
+                
+                <img src="satellite-images/darksts-newpioneer-5.gif" alt="Image for Chapter 13">
+            </div>
+        </div>
+        <div class="step" id="chapter-14">
+            <div class="chapter-container righty">
+                <h3 style="text-align: center;"><em>Asya Energy</em> Abruptly Changes Course</h3>
+                <p><p style="text-align: left;">
+                    On August 21, 2024, <em>Asya Energy</em>, which had been steadily sailing near southern Norway with a cargo from ALNG2, suddenly reversed its course. This unexpected maneuver occurred just days after the US imposed sanctions on the vessel and Palau suspended its flag. It’s likely that the vessel, now essentially a rogue ship without a flag, sought a safe haven to avoid potential seizure or interception. By August 24, 2024, <em>Asya Energy</em> had reached Kola Bay, positioning itself near the Saam floating storage unit (FSU), where it remained stationary before turning off again its AIS on September 3rd.
+                </p>
+                <!-- <img src="path_to_image14.jpg" alt="Image for Chapter 14"> -->
+            </div>
+        </div>
+        <div class="step" id="chapter-15">
+            <div class="chapter-container righty">
+                <h3 style="text-align: center;">The Sanctioned Floating Storage Units Will Be Part of The Shadow Logistics</h3>
+                <p style="text-align: left;">
+                    On August 29, 2024, <em>Everest Energy</em> was detected near the sanctioned <em>Saam</em> FSU, approximately 50 kilometers from Murmansk. The vessel, carrying a load from the ALNG2 plant, was involved in a STS. Theia imagery showed that <em>Everest Energy</em> remained alongside <em>Saam</em> until departure on September 2 to return to ALNG2.
+                </p>
+                <p style="text-align: left;">
+                    The <em>Saam</em> FSU, a 361,600-cbm storage unit owned by Novatek, has become a focal point in Russia’s dark LNG trade. This floating storage unit was sanctioned by the US Department of State on September 14, along with its counterpart, the <em>Koryak</em> FSU. Both units– strategically positioned off Murmansk and southern Kamchatka–are now under scrutiny. While their future utilization remains uncertain, SynMax Leviaton data indicates that these units could play a crucial role in facilitating Russia’s sanctioned LNG operations.
+                </p>
+                
+                <img src="satellite-images/EVEREST ENERGY (IMO 9256602) (1).png" alt="Image for Chapter 14">
+            </div>
+        </div>
+        <div class="step" id="chapter-16">
+            <div class="chapter-container centered">
+                <h3 style="text-align: center;">The Rise and Fall of Russia’s Dark LNG? Too Early To Say</h3>
+                <p style="text-align: left;">
+                    As of September 5, 2024, no customer has picked up the cargoes leaving the LNG molecules either boiling off in a tanker in the East Mediterranean or sitting idle in an Arctic floating storage unit. However, the real test for Western governments will be tracking these transfers and swaps even after global attention wanes. The best-case scenario would see a successful, early enforcement of sanctions that stifles the emerging sanctioned trade before it fully develops. In contrast, the worst-case scenario involves a more defiant Russia, engaging in riskier STS, one of which could go disastrously wrong, sending shockwaves through the entire LNG industry.
+                </p>
+                
+                <!-- <img src="path_to_image15.jpg" alt="Image for Chapter 15"> -->
+            </div>
+        </div>
+        </div>
+        <script src="map.js"></script>
+        <script src="animate.js"></script>
+        </body>
+        </html>
+        

@@ -1,0 +1,83 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [32.5631266667, 31.4519983333]
+      },
+      "properties": {
+        "name": "NEW ENERGY  PIONEER",
+        "color": "#bdbdbd"
+      }
+    },
+    
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [32.925648, 69.336487]
+      },
+      "properties": {
+        "name": "ASYA ENERGY",
+        "color": "#00cc11"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.431381, 71.372139]
+      },
+      "properties": {
+        "name": "EVEREST ENERGY",
+        "color": "#d1b200"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [32.563048, 31.452134]
+      },
+      "properties": {
+        "name": "PIONEER",
+        "color": "#75baff"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [32.9266666667, 69.3366666667]
+      },
+      "properties": {
+        "name": "SAAM FSU",
+        "color": "#00ffcb"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-6.9809633333, 36.9200966667]
+      },
+      "properties": {
+        "name": "MULAN",
+        "color": "#ff6347"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [32.5631266667, 31.4519983333]
+      },
+      "properties": {
+        "name": "NEW ENERGY",
+        "color": "#00ffcb"
+      }
+    }
+  ]
+}
